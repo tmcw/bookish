@@ -35,6 +35,20 @@
 <pre>---
 {Object.entries(results).map(([key, value]) => `${key}: "${value[0]}"`).join("\n")}
 ---</pre>
+    <h4 class='mt4'>API Endpoint</h4>
+    <p class='i'>This is the URL of the backend API request used to create this page:</p>
+    <ul class='list lh-copy pa0'>
+      <li><a href={url}>{url}</a></li>
+    </ul>
+    <h4 class='mt4'>Permalinks</h4>
+    <ul class='list lh-copy pa0'>
+      {#each permalinks as permalink}
+        <li><a href={permalink}>{permalink}</a></li>
+      {:else}
+        <li>No permalinks found</li>
+      {/each}
+    </ul>
+
     <h4 class='mt4'>Log</h4>
     <pre class='overflow-x-auto f7 lh-copy'>{messages.join('\n')}</pre>
   </div>
@@ -50,9 +64,10 @@
       const host = process.env.NODE_ENV === 'production' ?
         'https://api.bookish.tech' :
         'http://localhost:3111';
-      return this.fetch(`${host}/search?type=${type}&id=${id}`)
+      const url = `${host}/search?type=${type}&id=${id}`;
+      return this.fetch(url)
         .then(r => r.json()).then(res => {
-          return { results: res.results, messages: res.messages, id };
+          return { url, results: res.results, messages: res.messages, permalinks: res.permalinks, id };
         }, () => {
           return { error: 'Not found' };
         });
