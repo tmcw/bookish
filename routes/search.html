@@ -23,7 +23,7 @@
           <th class='pv2 ph3 tl f6 fw6 ttu'>Code</th>
           <th class='pv2 ph3 tl f6 fw6 ttu'>Value</th>
         </tr>
-	{#each Object.entries(ids) as [key, value]}
+	{#each Object.entries(results) as [key, value]}
         <tr class='striped--moon-gray'>
           <td class='pv2 ph3'>{key}</td>
           <td class='pv2 ph3'>{value.join(", ")}</td>
@@ -33,8 +33,10 @@
     </table>
     <h4 class='mt4'>Frontmatter</h4>
 <pre>---
-{Object.entries(ids).map(([key, value]) => `${key}: "${value[0]}"`).join("\n")}
+{Object.entries(results).map(([key, value]) => `${key}: "${value[0]}"`).join("\n")}
 ---</pre>
+    <h4 class='mt4'>Log</h4>
+    <pre class='overflow-x-auto f7 lh-copy'>{messages.join('\n')}</pre>
   </div>
 </div>
 
@@ -45,9 +47,12 @@
     },
     preload({ params, query }) {
       const { id, type } = query;
-      return this.fetch(`https://api.bookish.tech/search?type=${type}&id=${id}`)
-        .then(r => r.json()).then(ids => {
-          return { ids, id };
+      const host = process.env.NODE_ENV === 'production' ?
+        'https://api.bookish.tech' :
+        'http://localhost:3111';
+      return this.fetch(`${host}/search?type=${type}&id=${id}`)
+        .then(r => r.json()).then(res => {
+          return { results: res.results, messages: res.messages, id };
         }, () => {
           return { error: 'Not found' };
         });
