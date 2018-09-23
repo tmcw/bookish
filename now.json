@@ -1,0 +1,10 @@
+{
+  "name": "bookish",
+  "alias": "v2.bookish.tech",
+  "scale": {
+    "sfo1": {
+      "min": 1,
+      "max": "auto"
+    }
+  }
+}
