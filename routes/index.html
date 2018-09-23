@@ -1,0 +1,20 @@
+<svelte:head>
+<title>bookish.tech</title>
+</svelte:head>
+<div class='mw6 ph4-ns sans-serif center'>
+  <div class='flex justify-between items-end'>
+    <h1 class='f3 mt4 mb0'>Booky</h1>
+    <a href='/help'>help</a>
+  </div>
+  <form class="flex pv3" action="/search">
+    <input name='id' type='text' class='f5 pa2 code flex-auto mr1 ba b--black-50 br2' />
+    <select name='type' class='f5 ba b--black-50 mr1'>
+      <option value="isbn">ISBN</option>
+      <option value="olid">OLID</option>
+      <option value="oclc">OCLC</option>
+      <option value="lccn">LCCN</option>
+    </select>
+    <input class='ba b--black-50 bg-light-yellow br2'
+      type='submit' value="Search" />
+  </form>
+</div>
