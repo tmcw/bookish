@@ -1,10 +1,8 @@
 {
   "name": "bookish",
   "alias": "bookish.tech",
-  "scale": {
-    "sfo1": {
-      "min": 1,
-      "max": "auto"
-    }
-  }
+  "version": 2,
+  "builds": [
+    { "src": "*.js", "use": "@now/node" }
+  ]
 }
