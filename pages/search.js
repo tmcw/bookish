@@ -9,18 +9,45 @@ export default class Search extends React.Component {
         ? "https://api.bookish.tech"
         : "http://localhost:3111";
     const url = `${host}/search?type=${type}&id=${id}`;
-    const res = await (await fetch(url)).json();
-    console.log(res.results, res.permalinks);
-    return {
-      reqURL: url,
-      results: res.results,
-      messages: res.messages,
-      permalinks: res.permalinks,
-      id
-    };
+    try {
+      const res = await (await fetch(url)).json();
+      if (!res) throw new Error();
+      return {
+        reqURL: url,
+        results: res.results,
+        messages: res.messages,
+        permalinks: res.permalinks,
+        id
+      };
+    } catch (e) {
+      return { error: "Failed to request" };
+    }
   }
   render() {
-    const { reqURL, results, messages, permalinks, id } = this.props;
+    const { reqURL, results, messages, permalinks, id, error } = this.props;
+    if (error) {
+      return (
+        <div>
+          <head>
+            <title>bookish.tech</title>
+            <link
+              rel="stylesheet"
+              href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
+            />
+          </head>
+          <div className="mw6 ph4-ns sans-serif center">
+            <div className="flex justify-between items-end">
+              <h1 className="f3 mt4 mb0">Bookish</h1>
+              <a href="/help">help</a>
+            </div>
+          </div>
+          <div className="tc mt5 f4">
+            Oh no. That request failed. The bookish.tech API (api.bookish.tech)
+            is probably down.
+          </div>
+        </div>
+      );
+    }
     return (
       <div>
         <head>
@@ -75,11 +102,11 @@ export default class Search extends React.Component {
             </table>
             <h4 className="mt4">Frontmatter</h4>
             <pre>
-              ---
-              {Object.entries(results)
-                .map(([key, value]) => `${key}: "${value[0]}"`)
-                .join("\n")}
-              ---
+              {"---\n" +
+                Object.entries(results)
+                  .map(([key, value]) => `${key}: "${value[0]}"`)
+                  .join("\n") +
+                "\n---"}
             </pre>
             <h4 className="mt4">API Endpoint</h4>
             <p className="i">
