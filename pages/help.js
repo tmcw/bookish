@@ -1,6 +1,19 @@
+import Head from "next/head";
+
 export default function Help() {
   return (
     <div className="mw7 ph4 pv5 center sans-serif">
+      <Head>
+        <title>bookish.tech</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
+        />
+      </Head>
       <div className="lh-copy measure">
         <a href="/">Home</a>
         <p>

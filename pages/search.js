@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import fetch from "isomorphic-unfetch";
 
 export default class Search extends React.Component {
@@ -28,14 +29,18 @@ export default class Search extends React.Component {
     if (error) {
       return (
         <div>
-          <head>
+          <Head>
             <title>bookish.tech</title>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, maximum-scale=1"
+            />
             <link
               rel="stylesheet"
               href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
             />
-          </head>
-          <div className="mw6 ph4-ns sans-serif center">
+          </Head>
+          <div className="mw6 ph4-ns sans-serif center ph3 ph0-ns">
             <div className="flex justify-between items-end">
               <h1 className="f3 mt4 mb0">Bookish</h1>
               <a href="/help">help</a>
@@ -50,14 +55,18 @@ export default class Search extends React.Component {
     }
     return (
       <div>
-        <head>
+        <Head>
           <title>bookish.tech</title>
           <link
             rel="stylesheet"
             href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
           />
-        </head>
-        <div className="mw6 ph4-ns sans-serif center">
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+          />
+        </Head>
+        <div className="mw6 ph4-ns sans-serif center ph3 ph0-ns">
           <div className="flex justify-between items-end">
             <h1 className="f3 mt4 mb0">Bookish</h1>
             <a href="/help">help</a>
@@ -133,6 +142,14 @@ export default class Search extends React.Component {
               {messages.join("\n")}
             </pre>
           </div>
+        </div>
+        <div className="tc sans-serif pb5">
+          <a
+            href="https://github.com/tmcw/bookish"
+            className="blue hover-black"
+          >
+            This is open source: help make bookish better!
+          </a>
         </div>
       </div>
     );
