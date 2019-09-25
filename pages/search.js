@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
+import { safeDump } from "js-yaml";
 
 export default class Search extends React.Component {
   static async getInitialProps({ query }) {
@@ -53,6 +54,16 @@ export default class Search extends React.Component {
         </div>
       );
     }
+
+    const yml = safeDump(
+      Object.entries(results)
+        .filter(([type, val]) => val.length)
+        .reduce((memo, [type, val]) => {
+          memo[type] = val[0];
+          return memo;
+        }, {})
+    );
+
     return (
       <div>
         <Head>
@@ -101,22 +112,18 @@ export default class Search extends React.Component {
                   <th className="pv2 ph3 tl f6 fw6 ttu">Code</th>
                   <th className="pv2 ph3 tl f6 fw6 ttu">Value</th>
                 </tr>
-                {Object.entries(results).map(([key, value]) => (
-                  <tr key={key} className="striped--moon-gray">
-                    <td className="pv2 ph3">{key}</td>
-                    <td className="pv2 ph3">{value.join(", ")}</td>
-                  </tr>
-                ))}
+                {Object.entries(results)
+                  .filter(([key, value]) => value.length)
+                  .map(([key, value]) => (
+                    <tr key={key} className="striped--moon-gray">
+                      <td className="pv2 ph3">{key}</td>
+                      <td className="pv2 ph3">{value.join(", ")}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
             <h4 className="mt4">Frontmatter</h4>
-            <pre>
-              {"---\n" +
-                Object.entries(results)
-                  .map(([key, value]) => `${key}: "${value[0]}"`)
-                  .join("\n") +
-                "\n---"}
-            </pre>
+            <pre>{`---\n${yml}---`}</pre>
             <h4 className="mt4">API Endpoint</h4>
             <p className="i">
               This is the URL of the backend API request used to create this
