@@ -55,8 +55,14 @@ export default class Search extends React.Component {
       );
     }
 
+    const { title, authors, ...ids } = results;
+
+    const notFound = Object.entries(results)
+      .filter(([key, value]) => !value.length)
+      .map(([key]) => key);
+
     const yml = safeDump(
-      Object.entries(results)
+      Object.entries(ids)
         .filter(([type, val]) => val.length)
         .reduce((memo, [type, val]) => {
           memo[type] = val[0];
@@ -117,11 +123,20 @@ export default class Search extends React.Component {
                   .map(([key, value]) => (
                     <tr key={key} className="striped--moon-gray">
                       <td className="pv2 ph3">{key}</td>
-                      <td className="pv2 ph3">{value.join(", ")}</td>
+                      <td className="pv2 ph3">
+                        {value.map(v => (
+                          <div>{v}</div>
+                        ))}
+                      </td>
                     </tr>
                   ))}
               </tbody>
             </table>
+            {notFound.length ? (
+              <div className="f6 gray mt2">
+                {notFound.join(", ")} not found.
+              </div>
+            ) : null}
             <h4 className="mt4">Frontmatter</h4>
             <pre>{`---\n${yml}---`}</pre>
             <h4 className="mt4">API Endpoint</h4>
