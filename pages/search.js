@@ -120,12 +120,12 @@ export default class Search extends React.Component {
                 </tr>
                 {Object.entries(results)
                   .filter(([key, value]) => value.length)
-                  .map(([key, value]) => (
+                  .map(([key, value], i) => (
                     <tr key={key} className="striped--moon-gray">
                       <td className="pv2 ph3">{key}</td>
                       <td className="pv2 ph3">
-                        {value.map(v => (
-                          <div>{v}</div>
+                        {value.map((v, i) => (
+                          <div key={i}>{v}</div>
                         ))}
                       </td>
                     </tr>

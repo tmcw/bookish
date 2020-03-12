@@ -16,7 +16,7 @@ export default function Home() {
       </Head>
       <div className="mw6 ph4-ns sans-serif center ph3 ph0-ns">
         <div className="flex justify-between items-end">
-          <h1 className="f3 mt4 mb0">Booky</h1>
+          <h1 className="f3 mt4 mb0">bookish.tech</h1>
           <a href="/help">help</a>
         </div>
         <form className="flex pv3" action="/search">
